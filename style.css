@@ -1,0 +1,12 @@
+    canvas {
+      border: 10px double #AAAACC;
+      background-color: #CCCCFF;
+    }
+
+    body{
+      background-color: skyBlue;
+    }
+
+    #center {
+      background-color: blue;
+    }
