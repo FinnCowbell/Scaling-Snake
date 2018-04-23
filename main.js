@@ -7,9 +7,10 @@ var size = 40;
 var score = document.getElementById('score');
 var s = 0;
 var sColor = "#ff99e7";
+	
 var fColor = "Tomato";
 var textColor = "black";
-
+var hColor = "#ee88d6"
 var fruit = {
   x: (Math.floor(Math.random() * c.width / size) * size),
   y: (Math.floor(Math.random() * c.height / size) * size),
@@ -63,7 +64,7 @@ var snake = {
     if (snake.y < 0) {
       snake.y = (c.height - size);
     };
-    ctx.fillStyle = sColor;
+    ctx.fillStyle = hColor;
     ctx.fillRect(snake.x, snake.y, size, size);
 
     if (fruit.x == snake.x && fruit.y == snake.y) { //Checking if fruit is touched
@@ -111,12 +112,13 @@ function gameLoop() {
     c.style.backgroundColor = "darkBlue";
     textColor = "white";
     sColor = "DodgerBlue";
-    fColor = "SlateBlue";
+    fColor = "SlateBlue"; hColor = "white"
+	 
   } else{
     c.style.backgroundColor = "#CCCCFF"
     textColor = "black"
     sColor = "#ff99e7";
-    fColor = "Tomato";
+    fColor = "Tomato"; hColor ="ee88d6"
   }
   snake.update();
   fruit.update();
