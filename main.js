@@ -1,16 +1,16 @@
+var size = 40;
 document.addEventListener('DOMContentLoaded', function() {
 var c = document.getElementById('canvas'); //canvas html element
 var head = document.getElementById('head');
 var background = document.getElementById('background');
 var ctx = c.getContext('2d');
-var size = 40;
 var score = document.getElementById('score');
 var s = 0;
 var sColor = "#ff99e7";
-	
 var fColor = "Tomato";
 var textColor = "black";
-var hColor = "#ee88d6"
+var hColor = "#ee88d6";
+var oSize = size; //used to check if user has changed the size in console. Formats if they did.
 var fruit = {
   x: (Math.floor(Math.random() * c.width / size) * size),
   y: (Math.floor(Math.random() * c.height / size) * size),
@@ -29,9 +29,9 @@ var snake = {
   y: Math.ceil((c.height/2)/size)*size,
   d: "left",
   nd: "null", //Next direction. Used if two inputs are put on the same tick.
+  input: 0, //counts inputs per tick. The first input is set to d, the next input is set to nd, other inputs are ignored.
   oldX: 0,
   oldY: 0,
-  input: false,
   tail: [],
   update: function() {
     snake.oldX = snake.x;
@@ -66,7 +66,6 @@ var snake = {
     };
     ctx.fillStyle = hColor;
     ctx.fillRect(snake.x, snake.y, size, size);
-
     if (fruit.x == snake.x && fruit.y == snake.y) { //Checking if fruit is touched
       fruit.newPos();
       s++;
@@ -107,18 +106,20 @@ function tailPiece(x, y, order) {
 }
 
 function gameLoop() {
+	console.log(snake.input);
   ctx.clearRect(0, 0, c.width, c.height); //clear canvas
   if(s >= 10){
     c.style.backgroundColor = "darkBlue";
     textColor = "white";
     sColor = "DodgerBlue";
-    fColor = "SlateBlue"; hColor = "white"
-	 
+    fColor = "SlateBlue";
+		hColor = "DodgerBlue";
   } else{
     c.style.backgroundColor = "#CCCCFF"
     textColor = "black"
     sColor = "#ff99e7";
-    fColor = "Tomato"; hColor ="ee88d6"
+    fColor = "Tomato";
+		hColor = "#ee88d6";
   }
   snake.update();
   fruit.update();
@@ -131,12 +132,17 @@ function gameLoop() {
   ctx.font = "30px Comic Sans MS";
   ctx.fillStyle = textColor;
   ctx.fillText("Score: " + s, 10,30);
-	if(snake.input && snake.nd != "null"){ // Allows user to buffer Directions
+	if(snake.input >= 2 ){ // Allows user to buffer Directions
   	snake.d = snake.nd;
-    snake.nd = "null";
-    snake.input = false;
+		snake.nd = "null";
+		snake.input = 0;
 	}else{
-		snake.input = false;
+		snake.input = 0;
+	}
+	if(size != oSize){
+		format();
+		fruit.update();
+		oSize = size;
 	}
 };
 
@@ -153,87 +159,67 @@ function gameLoop() {
 
 
 document.addEventListener("keydown", function(event) {
-if(snake.input == false){
+if(!snake.input){
     switch (event.keyCode) {
-      case 37:
+      case 37://left arrow
+			case 65://a
         if (snake.d != "right" && snake.nd != "right" ) {
           snake.d = "left";
-          snake.input = true;
+				  snake.input++
         }
         break;
-      case 38:
+      case 38://up arrow
+			case 87://w
         if (snake.d != "down" && snake.nd != "down") {
           snake.d = "up";
-          snake.input = true;
+					snake.input++
         }
         break;
-      case 39:
+      case 39://right arrow
+			case 68://d
         if (snake.d != "left" && snake.nd != "left") {
           snake.d = "right";
-          snake.input = true;
+					snake.input++
         }
         break;
-      case 40:
+      case 40://down arrow
+			case 83://s
         if (snake.d != "up" && snake.nd != "up") {
           snake.d = "down";
-          snake.input = true;
+					snake.input++
         }
         break;
       default:
         break;
     }
-  } else {
-      switch (event.keyCode) {
-        case 37:
-          if (snake.d != "right" && snake.nd != "right" ) {
-            snake.nd = "left";
-            snake.input = true;
-          }
-          break;
-        case 38:
-          if (snake.d != "down" && snake.nd != "down") {
-            snake.nd = "up";
-            snake.input = true;
-          }
-          break;
-        case 39:
-          if (snake.d != "left" && snake.nd != "left") {
-            snake.nd = "right";
-            snake.input = true;
-          }
-          break;
-        case 40:
-          if (snake.d != "up" && snake.nd != "up") {
-            snake.nd = "down";
-            snake.input = true;
-          }
-          break;
-      /*case 37:
+} else if(snake.input < 2) {
+    switch (event.keyCode) {
+      case 37:
         if (snake.d != "right") {
           snake.nd = "left";
-          snake.input = true;
+					snake.input++
         }
         break;
       case 38:
         if (snake.d != "down") {
           snake.nd = "up";
-          snake.input = true;
+					snake.input++
         }
         break;
       case 39:
         if (snake.d != "left") {
           snake.nd = "right";
-          snake.input = true;
+					snake.input++
         }
         break;
       case 40:
         if (snake.d != "up") {
           snake.nd = "down";
-          snake.input = true;
+					snake.input++;
         }
-        break;*/
-      default:
         break;
+    default:
+      break;
     }
   }
 })
@@ -241,9 +227,7 @@ if(snake.input == false){
 function format() {
   c.height = (window.innerHeight - window.innerHeight % size - size);
   c.width = (window.innerWidth - window.innerWidth % size - size);
-  if(fruit.x >= window.innerWidth || fruit.y >= window.innerHeight){
-    fruit.newPos();
-  }
+  fruit.newPos();
 };
 window.addEventListener('resize', function() {
   format();
