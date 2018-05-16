@@ -1,4 +1,5 @@
 var size = 40;
+
 document.addEventListener('DOMContentLoaded', function() {
 var c = document.getElementById('canvas'); //canvas html element
 var head = document.getElementById('head');
@@ -14,7 +15,7 @@ var headColor = [
   "#ffd800", //yellow
   "#55aa70", //green
   "#3085bf" //blue
-
+  //rainbow afterwards
 ];
 var snakeColor = [
   "#ff99e7",
@@ -28,7 +29,7 @@ var snakeColor = [
 var fruitColor = [
   "Tomato",
   "#cc6699",
-  "#ffc200",
+  "#aa8000",
   "#b3a000",
   "#408054",
   "#407080"
@@ -42,12 +43,12 @@ var bgColor = [
   "#cfe4ff"
 ]
 var textColor = [
-  "black",
+  "#000000",
   "#993366",
   "#ff0066",
   "#fff300",
   "#55bb75",
-  "white",
+  "#ffffff",
 ];
 
 var oSize = size; //used to check if user has changed the size in console. Formats if they did.
