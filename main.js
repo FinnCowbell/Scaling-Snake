@@ -6,16 +6,56 @@ var background = document.getElementById('background');
 var ctx = c.getContext('2d');
 var score = document.getElementById('score');
 var s = 0;
-var sColor = "#ff99e7";
-var fColor = "Tomato";
-var textColor = "black";
-var hColor = "#ee88d6";
+var ci = 0; // colorIndex
+var headColor = [
+  "#ee88d6", //default
+  "#ee3333", //red
+  "#ff8200", //orange
+  "#ffd800", //yellow
+  "#55aa70", //green
+  "#3085bf" //blue
+
+];
+var snakeColor = [
+  "#ff99e7",
+  "#ff6666",
+  "#ffa100",
+  "#ffe900",
+  "#30bf5e",
+  "#309dbf",
+  "Isn't gonna be used because rainbow"
+];
+var fruitColor = [
+  "Tomato",
+  "#cc6699",
+  "#ffc200",
+  "#b3a000",
+  "#408054",
+  "#407080"
+];
+var bgColor = [
+  "#ccccff",
+  "#ffcccc",
+  "#ffc180",
+  "#fff9bf",
+  "#cfe6d6",
+  "#cfe4ff"
+]
+var textColor = [
+  "black",
+  "#993366",
+  "#ff0066",
+  "#fff300",
+  "#55bb75",
+  "white",
+];
+
 var oSize = size; //used to check if user has changed the size in console. Formats if they did.
 var fruit = {
   x: (Math.floor(Math.random() * c.width / size) * size),
   y: (Math.floor(Math.random() * c.height / size) * size),
   update: function() {
-    ctx.fillStyle = fColor; //Redraw Fruit
+    ctx.fillStyle = fruitColor[ci]; //Redraw Fruit
     ctx.fillRect(fruit.x + size / 4, fruit.y + size / 4, size / 2, size / 2);
   },
     newPos: function(){
@@ -64,7 +104,7 @@ var snake = {
     if (snake.y < 0) {
       snake.y = (c.height - size);
     };
-    ctx.fillStyle = hColor;
+    ctx.fillStyle = headColor[ci];
     ctx.fillRect(snake.x, snake.y, size, size);
     if (fruit.x == snake.x && fruit.y == snake.y) { //Checking if fruit is touched
       fruit.newPos();
@@ -100,27 +140,16 @@ function tailPiece(x, y, order) {
     if(this.x == fruit.x && this.y == fruit.y){
       fruit.newPos();
     }
-    ctx.fillStyle = sColor;
+    ctx.fillStyle = snakeColor[(ci + 1 == snakeColor.length) ? this.order % (snakeColor.length - 1) : ci]; // Checks if it needs to be a rainbow
     ctx.fillRect(this.x, this.y, size, size);
   }
 }
 
 function gameLoop() {
-	console.log(snake.input);
   ctx.clearRect(0, 0, c.width, c.height); //clear canvas
-  if(s >= 10){
-    c.style.backgroundColor = "darkBlue";
-    textColor = "white";
-    sColor = "DodgerBlue";
-    fColor = "SlateBlue";
-		hColor = "DodgerBlue";
-  } else{
-    c.style.backgroundColor = "#CCCCFF"
-    textColor = "black"
-    sColor = "#ff99e7";
-    fColor = "Tomato";
-		hColor = "#ee88d6";
-  }
+  ci = (s >= snakeColor.length * 5 ? (snakeColor.length - 1) : Math.floor(s/5) % snakeColor.length) // Changes colors every 10 points, loops if it runs out.
+  c.style.backgroundColor = bgColor[ci];
+  c.style.borderColor = headColor[ci];
   snake.update();
   fruit.update();
   if (snake.tail.length != 0) {
@@ -130,7 +159,7 @@ function gameLoop() {
   }
   //score.innerHTML = "Score: " + s;  //update score
   ctx.font = "30px Comic Sans MS";
-  ctx.fillStyle = textColor;
+  ctx.fillStyle = textColor[ci];
   ctx.fillText("Score: " + s, 10,30);
 	if(snake.input >= 2 ){ // Allows user to buffer Directions
   	snake.d = snake.nd;
@@ -139,7 +168,7 @@ function gameLoop() {
 	}else{
 		snake.input = 0;
 	}
-	if(size != oSize){
+	if(size != oSize){ //Allows console-side Size changing to work. May add a way to do so in the UI as well.
 		format();
 		fruit.update();
 		oSize = size;
@@ -150,8 +179,7 @@ function gameLoop() {
    snake.x = Math.ceil((c.width/2)/size)*size;
    snake.y = Math.ceil((c.height/2)/size)*size;
    snake.tail = [];
-   sColor = "#ff99e7";
-   fColor = "Tomato";
+   ci = 0;
    s = 0;
    snake.d = "left";
    fruit.newPos();
@@ -159,7 +187,7 @@ function gameLoop() {
 
 
 document.addEventListener("keydown", function(event) {
-if(!snake.input){
+if(snake.input < 1){
     switch (event.keyCode) {
       case 37://left arrow
 			case 65://a
@@ -234,6 +262,6 @@ window.addEventListener('resize', function() {
 })
 format();
 reset();
-setInterval(gameLoop, 125);
+setInterval(gameLoop, 100);
 
 }, false);
