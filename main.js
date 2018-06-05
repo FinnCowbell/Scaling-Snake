@@ -14,7 +14,8 @@ var headColor = [
   "#ff8200", //orange
   "#ffd800", //yellow
   "#55aa70", //green
-  "#3085bf" //blue
+  "#3085bf", //blue
+  "#4c0184" //purple
   //rainbow afterwards
 ];
 var snakeColor = [
@@ -24,6 +25,7 @@ var snakeColor = [
   "#ffe900",
   "#30bf5e",
   "#309dbf",
+  "#6f00c1"
   "Isn't gonna be used because rainbow"
 ];
 var fruitColor = [
@@ -32,7 +34,8 @@ var fruitColor = [
   "#aa8000",
   "#b3a000",
   "#408054",
-  "#407080"
+  "#407080",
+  "#6f00c1"
 ];
 var bgColor = [
   "#ccccff",
@@ -40,7 +43,8 @@ var bgColor = [
   "#ffc180",
   "#fff9bf",
   "#cfe6d6",
-  "#cfe4ff"
+  "#cfe4ff",
+  "#ddafff"
 ]
 var textColor = [
   "#000000",
@@ -48,7 +52,8 @@ var textColor = [
   "#ff0066",
   "#fff300",
   "#55bb75",
-  "#ffffff",
+  "#6f00c1",
+  "#ffffff"
 ];
 
 var oSize = size; //used to check if user has changed the size in console. Formats if they did.
