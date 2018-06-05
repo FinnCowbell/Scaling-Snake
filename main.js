@@ -25,7 +25,7 @@ var snakeColor = [
   "#ffe900",
   "#30bf5e",
   "#309dbf",
-  "#6f00c1"
+  "#6f00c1",
   "Isn't gonna be used because rainbow"
 ];
 var fruitColor = [
@@ -52,8 +52,8 @@ var textColor = [
   "#ff0066",
   "#fff300",
   "#55bb75",
-  "#6f00c1",
-  "#ffffff"
+  "#ffffff",
+  "#6f00c1"
 ];
 
 var oSize = size; //used to check if user has changed the size in console. Formats if they did.
@@ -146,14 +146,14 @@ function tailPiece(x, y, order) {
     if(this.x == fruit.x && this.y == fruit.y){
       fruit.newPos();
     }
-    ctx.fillStyle = snakeColor[(ci + 1 == snakeColor.length) ? this.order % (snakeColor.length - 1) : ci]; // Checks if it needs to be a rainbow
+    ctx.fillStyle = snakeColor[s < headColor.length * 2 ? ci : ((this.order) % headColor.length)]; // Checks if it needs to be a rainbow
     ctx.fillRect(this.x, this.y, size, size);
   }
 }
 
 function gameLoop() {
   ctx.clearRect(0, 0, c.width, c.height); //clear canvas
-  ci = (s >= snakeColor.length * 5 ? (snakeColor.length - 1) : Math.floor(s/5) % snakeColor.length) // Changes colors every 10 points, loops if it runs out.
+  ci = (s <= headColor.length * 2 ? Math.floor(s/2) % headColor.length : (snake.tail.length % (snakeColor.length - 1))) // Changes colors every 10 points, loops if it runs out.
   c.style.backgroundColor = bgColor[ci];
   c.style.borderColor = headColor[ci];
   snake.update();
