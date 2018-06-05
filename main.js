@@ -146,14 +146,14 @@ function tailPiece(x, y, order) {
     if(this.x == fruit.x && this.y == fruit.y){
       fruit.newPos();
     }
-    ctx.fillStyle = snakeColor[s < headColor.length * 2 ? ci : ((this.order) % headColor.length)]; // Checks if it needs to be a rainbow
+    ctx.fillStyle = snakeColor[s < headColor.length * 5 ? ci : ((this.order) % headColor.length)]; // Checks if it needs to be a rainbow
     ctx.fillRect(this.x, this.y, size, size);
   }
 }
 
 function gameLoop() {
   ctx.clearRect(0, 0, c.width, c.height); //clear canvas
-  ci = (s <= headColor.length * 2 ? Math.floor(s/2) % headColor.length : (snake.tail.length % (snakeColor.length - 1))) // Changes colors every 10 points, loops if it runs out.
+  ci = (s <= headColor.length * 5 ? Math.floor(s/5) % headColor.length : (snake.tail.length % (snakeColor.length - 1))) // Changes colors every 10 points, loops if it runs out.
   c.style.backgroundColor = bgColor[ci];
   c.style.borderColor = headColor[ci];
   snake.update();
