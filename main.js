@@ -146,7 +146,7 @@ function tailPiece(x, y, order) {
     if(this.x == fruit.x && this.y == fruit.y){
       fruit.newPos();
     }
-    ctx.fillStyle = snakeColor[s < headColor.length * 5 ? ci : ((this.order) % headColor.length)]; // Checks if it needs to be a rainbow
+    ctx.fillStyle = snakeColor[s < headColor.length * 5 ? ci : ((snake.tail.length - this.order -1) % headColor.length)]; // Checks if it needs to be a rainbow
     ctx.fillRect(this.x, this.y, size, size);
   }
 }
