@@ -258,10 +258,10 @@ if(snake.input < 1){
 function format() {
   c.oldHeight= c.height
   c.oldWidth = c.width
-  c.height = (window.innerHeight - window.innerHeight % size - size);
-  c.width = (window.innerWidth - window.innerWidth % size - size);
-  if(c.oldHeight != c.height || c.oldWidth != c.width){
+  if(c.oldHeight != window.innerHeight - window.innerHeight % size - size || c.oldWidth != window.innerWidth - window.innerWidth % size - size){
     fruit.newPos();
+    c.height = (window.innerHeight - window.innerHeight % size - size);
+    c.width = (window.innerWidth - window.innerWidth % size - size);
   }
 };
 window.addEventListener('resize', function() {
