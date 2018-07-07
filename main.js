@@ -1,11 +1,9 @@
 var size = 40;
-
 document.addEventListener('DOMContentLoaded', function() {
 var c = document.getElementById('canvas'); //canvas html element
 var head = document.getElementById('head');
 var background = document.getElementById('background');
 var ctx = c.getContext('2d');
-var score = document.getElementById('score');
 var s = 0;
 var ci = 0; // colorIndex
 var headColor = [
@@ -163,10 +161,9 @@ function gameLoop() {
       snake.tail[i].update();
     }
   }
-  //score.innerHTML = "Score: " + s;  //update score
   ctx.font = "30px Comic Sans MS";
   ctx.fillStyle = textColor[ci];
-  ctx.fillText("Score: " + s, 10,30);
+  ctx.fillText(`Score: ${s}`, 10,30);
 	if(snake.input >= 2 ){ // Allows user to buffer Directions
   	snake.d = snake.nd;
 		snake.nd = "null";
@@ -259,9 +256,13 @@ if(snake.input < 1){
 })
 
 function format() {
+  c.oldHeight= c.height
+  c.oldWidth = c.width
   c.height = (window.innerHeight - window.innerHeight % size - size);
   c.width = (window.innerWidth - window.innerWidth % size - size);
-  fruit.newPos();
+  if(c.oldHeight != c.height || c.oldWidth != c.width){
+    fruit.newPos();
+  }
 };
 window.addEventListener('resize', function() {
   format();
