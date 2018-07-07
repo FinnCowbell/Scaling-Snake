@@ -264,9 +264,11 @@ function format() {
     c.oldHeight= c.height
     c.oldWidth = c.width
     if(c.oldHeight != window.innerHeight - window.innerHeight % size - size || c.oldWidth != window.innerWidth - window.innerWidth % size - size){
-      fruit.newPos();
       c.height = (window.innerHeight - window.innerHeight % size - size);
       c.width = (window.innerWidth - window.innerWidth % size - size);
+      if(fruit.x >= c.width - size || fruit.y >= c.height - size){
+        fruit.newPos();
+      }
     }
 };
 window.addEventListener('resize', function() {
