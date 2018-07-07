@@ -1,4 +1,4 @@
-var size = 40;
+var size = 40; //size is outsizde the DOMContentLoaded so it can be changed by console!
 document.addEventListener('DOMContentLoaded', function() {
 var c = document.getElementById('canvas'); //canvas html element
 var head = document.getElementById('head');
@@ -25,7 +25,7 @@ var snakeColor = [
   "#30bf5e",
   "#309dbf",
   "#6f00c1",
-  "Isn't gonna be used because rainbow"
+  "Isn't gonna be used because rainbow" //this is lazy, I know.
 ];
 var fruitColor = [
   "Tomato",
@@ -74,7 +74,8 @@ var snake = {
   y: Math.ceil((c.height/2)/size)*size,
   d: "left",
   nd: "null", //Next direction. Used if two inputs are put on the same tick.
-  input: 0, //counts inputs per tick. The first input is set to d, the next input is set to nd, other inputs are ignored.
+  input: 0,
+  //counts inputs per tick. The first input is set to d, the next input is set to nd, other inputs are ignored.
   oldX: 0,
   oldY: 0,
   tail: [],
@@ -202,28 +203,28 @@ if(snake.input < 1){
     switch (event.keyCode) {
       case 37://left arrow
 			case 65://a
-        if (snake.d != "right" && snake.nd != "right" ) {
+        if (snake.d != "right" && snake.nd != "right" && snake.d != "left") {
           snake.d = "left";
 				  snake.input++
         }
         break;
       case 38://up arrow
 			case 87://w
-        if (snake.d != "down" && snake.nd != "down") {
+        if (snake.d != "down" && snake.nd != "down" && snake.d != "up") {
           snake.d = "up";
 					snake.input++
         }
         break;
       case 39://right arrow
 			case 68://d
-        if (snake.d != "left" && snake.nd != "left") {
+        if (snake.d != "left" && snake.nd != "left" && snake.d != "right") {
           snake.d = "right";
 					snake.input++
         }
         break;
       case 40://down arrow
 			case 83://s
-        if (snake.d != "up" && snake.nd != "up") {
+        if (snake.d != "up" && snake.nd != "up" && snake.d != "down") {
           snake.d = "down";
 					snake.input++
         }
@@ -267,17 +268,20 @@ function format() {
     formatOnNextTick = false;
     c.oldHeight= c.height
     c.oldWidth = c.width
+    //checks if size actually needs to be changed
     if(c.oldHeight != window.innerHeight - window.innerHeight % size - size
     || c.oldWidth != window.innerWidth - window.innerWidth % size - size){
       c.height = (window.innerHeight - window.innerHeight % size - size);
       c.width = (window.innerWidth - window.innerWidth % size - size);
       if(fruit.x >= c.width || fruit.y >= c.height){
         fruit.newPos();
+        //if the fruit falls outside the canvas when resizing, put it somewhere new.
       }
     }
 };
 window.addEventListener('resize', function() {
   formatOnNextTick = true;
+  //when we resize the canvas it gets erased. Therefore, we wait to reset it until the beginning of the next gameTick.
 })
 format();
 reset();
