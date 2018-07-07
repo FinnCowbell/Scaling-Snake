@@ -4,6 +4,7 @@ var c = document.getElementById('canvas'); //canvas html element
 var head = document.getElementById('head');
 var background = document.getElementById('background');
 var ctx = c.getContext('2d');
+let formatOnNextTick = false;
 var s = 0;
 var ci = 0; // colorIndex
 var headColor = [
@@ -151,6 +152,9 @@ function tailPiece(x, y, order) {
 
 function gameLoop() {
   ctx.clearRect(0, 0, c.width, c.height); //clear canvas
+  if(formatOnNextTick){ //formats before redrawing everything.
+    format();
+  }
   ci = (s <= headColor.length * 5 ? Math.floor(s/5) % headColor.length : (snake.tail.length % (snakeColor.length - 1))) // Changes colors every 10 points, loops if it runs out.
   c.style.backgroundColor = bgColor[ci];
   c.style.borderColor = headColor[ci];
@@ -171,8 +175,8 @@ function gameLoop() {
 	}else{
 		snake.input = 0;
 	}
-	if(size != oSize){ //Allows console-side Size changing to work. May add a way to do so in the UI as well.
-		format();
+	if(size != oSize){ //Allows console-side size changing
+		format(); // TODO: Add a way to change size in the ui: a settings button?
 		fruit.update();
 		oSize = size;
 	}
@@ -256,16 +260,17 @@ if(snake.input < 1){
 })
 
 function format() {
-  c.oldHeight= c.height
-  c.oldWidth = c.width
-  if(c.oldHeight != window.innerHeight - window.innerHeight % size - size || c.oldWidth != window.innerWidth - window.innerWidth % size - size){
-    fruit.newPos();
-    c.height = (window.innerHeight - window.innerHeight % size - size);
-    c.width = (window.innerWidth - window.innerWidth % size - size);
-  }
+    formatOnNextTick = false;
+    c.oldHeight= c.height
+    c.oldWidth = c.width
+    if(c.oldHeight != window.innerHeight - window.innerHeight % size - size || c.oldWidth != window.innerWidth - window.innerWidth % size - size){
+      fruit.newPos();
+      c.height = (window.innerHeight - window.innerHeight % size - size);
+      c.width = (window.innerWidth - window.innerWidth % size - size);
+    }
 };
 window.addEventListener('resize', function() {
-  format();
+  formatOnNextTick = true;
 })
 format();
 reset();
