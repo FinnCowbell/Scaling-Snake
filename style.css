@@ -2,10 +2,12 @@ canvas {
   border: 10px double #AAAACC;
   padding: 5px;
   background-color: #FFFFFF;
+  z-index: 1;
 }
 
 body {
   background-color: #333333;
+  overflow: hidden;
 }
 
 #center {
@@ -15,14 +17,16 @@ body {
   box-shadow: 5px -5px #00000044;
   border: 2px solid #ee88d6;
   background-color: #ccccff;
-  position: fixed;
-  bottom:10;
+  z-index: 2;
+  position: absolute;
+  bottom: 10px;
   right:-150px;
   transition-property: right;
   transition-duration: .25s;
+  overflow: hidden;
 }
 #settings:hover{
-  right:0;
+  right:0px;
   transition: right .25s;
 }
 #gear{
