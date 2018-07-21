@@ -1,12 +1,42 @@
-    canvas {
-      border: 10px double #AAAACC;
-      background-color: #FFFFFF;
-    }
+canvas {
+  border: 10px double #AAAACC;
+  padding: 5px;
+  background-color: #FFFFFF;
+}
 
-    body{
-      background-color: #333333;
-    }
+body {
+  background-color: #333333;
+}
 
-    #center {
-      background-color: blue;
-    }
+#center {
+  background-color: blue;
+}
+#settings{
+  box-shadow: 5px -5px #00000044;
+  border: 2px solid #ee88d6;
+  background-color: #ccccff;
+  position: fixed;
+  bottom:10;
+  right:-150px;
+  transition-property: right;
+  transition-duration: .25s;
+}
+#settings:hover{
+  right:0;
+  transition: right .25s;
+}
+#gear{
+  padding: 5px;
+  padding-top:10px;
+}
+.slider{
+  padding:5px;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #4CAF50; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}

@@ -4,6 +4,8 @@ var c = document.getElementById('canvas'); //canvas html element
 var head = document.getElementById('head');
 var background = document.getElementById('background');
 var ctx = c.getContext('2d');
+var settingsBox = document.getElementById('settings')
+var sizeSlider = document.getElementById('size');
 let formatOnNextTick = false;
 var s = 0;
 var ci = 0; // colorIndex
@@ -63,6 +65,10 @@ var fruit = {
     ctx.fillStyle = fruitColor[ci]; //Redraw Fruit
     ctx.fillRect(fruit.x + size / 4, fruit.y + size / 4, size / 2, size / 2);
   },
+  align: function(){
+    this.x = (Math.round(this.x / size) * size);
+    this.y = (Math.round(this.y / size) * size);
+  },
     newPos: function(){
     fruit.y = (Math.floor(Math.random() * c.height / size) * size); // Picks a random Position for the fruit
     fruit.x = (Math.floor(Math.random() * c.width / size) * size);
@@ -79,6 +85,10 @@ var snake = {
   oldX: 0,
   oldY: 0,
   tail: [],
+  align: function() {
+    this.x = Math.ceil((this.x/2)/size)*size;
+    this.y = Math.ceil((this.y/2)/size)*size;
+  },
   update: function() {
     snake.oldX = snake.x;
     snake.oldY = snake.y;
@@ -185,9 +195,13 @@ function gameLoop() {
 		fruit.update();
 		oSize = size;
 	}
+  if(s>0){
+   settings.style.display = "none";
+  }
 };
 
  function reset(){
+   settings.style.display = "block"
    snake.x = Math.ceil((c.width/2)/size)*size;
    snake.y = Math.ceil((c.height/2)/size)*size;
    snake.tail = [];
@@ -197,8 +211,16 @@ function gameLoop() {
    fruit.newPos();
  }
 
+sizeSlider.oninput = function(){
+  size = (this.value * 5);
+  format()
+  fruit.align();
+  fruit.update();
+  snake.align();
+}
 
 document.addEventListener("keydown", function(event) {
+  c.focus();
 if(snake.input < 1){
     switch (event.keyCode) {
       case 37://left arrow
