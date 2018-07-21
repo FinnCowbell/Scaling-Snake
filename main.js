@@ -180,9 +180,9 @@ function gameLoop() {
       snake.tail[i].update();
     }
   }
-  ctx.font = "30px Comic Sans MS";
+  ctx.font = "40px Oswald";
   ctx.fillStyle = textColor[ci];
-  ctx.fillText(`Score: ${s}`, 10,30);
+  ctx.fillText(`Score: ${s}`, 10,40);
 	if(snake.input >= 2 ){ // Allows user to buffer Directions
   	snake.d = snake.nd;
 		snake.nd = "null";
