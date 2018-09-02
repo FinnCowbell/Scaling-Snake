@@ -7,6 +7,7 @@ var ctx = c.getContext('2d');
 var settingsBox = document.getElementById('settings')
 var sizeSlider = document.getElementById('size');
 let formatOnNextTick = false;
+let mouseEvent;
 var s = 0;
 var ci = 0; // colorIndex
 var headColor = [
@@ -196,12 +197,14 @@ function gameLoop() {
 		oSize = size;
 	}
   if(s>0){
-   settings.style.display = "none";
+   //settings.style.display = "none";
+   settings.style.right = "-250px";
   }
 };
 
  function reset(){
-   settings.style.display = "block"
+   //settings.style.display = "block"
+   settings.style.right = "-150px"
    snake.x = Math.ceil((c.width/2)/size)*size;
    snake.y = Math.ceil((c.height/2)/size)*size;
    snake.tail = [];
@@ -300,6 +303,7 @@ function format() {
         //if the fruit falls outside the canvas when resizing, put it somewhere new.
       }
     }
+console.log(mouseEvent);
 };
 window.addEventListener('resize', function() {
   formatOnNextTick = true;
@@ -310,3 +314,15 @@ reset();
 setInterval(gameLoop, 100);
 
 }, false);
+settings.addEventListener("mouseover", function(e){
+  console.log(e);
+  mouseEvent = e;
+  settings.style.right = "0px";
+  sizeSlider.style.display = "block";
+
+})
+canvas.addEventListener("mouseover", function(){
+  settings.style.right ="-150px";
+  sizeSlider.style.display = "none";
+})
+""
